@@ -31,15 +31,14 @@ export function faviconSvg(mark: SvgShape, rounded: boolean): string {
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><rect width="1024" height="1024" rx="${radius}" fill="#1C1C1E"/>${place(mark, (1024 - width) / 2, (1024 - height) / 2, width)}</svg>\n`;
 }
 
-/** 1200×630 share card: the full logo centred on the dark tiles, at most 760×440. */
+/** 1200×630 share card: the full logo centred on the plain dark background, at most 760×440. */
 export function ogSvg(logo: SvgShape): string {
   const W = 1200;
   const H = 630;
   const width = Math.min(760, (440 * logo.viewBox[2]) / logo.viewBox[3]);
   const height = (width * logo.viewBox[3]) / logo.viewBox[2];
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
-<defs><pattern id="tiles" width="180" height="180" patternUnits="userSpaceOnUse" patternTransform="rotate(25)"><rect width="90" height="180" fill="#FFFFFF" fill-opacity="0.035"/></pattern></defs>
-<rect width="${W}" height="${H}" fill="#1C1C1E"/><rect width="${W}" height="${H}" fill="url(#tiles)"/>
+<rect width="${W}" height="${H}" fill="#1C1C1E"/>
 ${place(logo, (W - width) / 2, (H - height) / 2, width)}
 </svg>\n`;
 }
