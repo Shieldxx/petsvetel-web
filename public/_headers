@@ -13,3 +13,7 @@
 # Fingerprinted Astro assets: a content change means a new file name.
 /_astro/*
   Cache-Control: public, max-age=31536000, immutable
+
+# Preview host must not compete with petsvetel.cz in search.
+https://petsvetel-web.davkohout.workers.dev/*
+  X-Robots-Tag: noindex
