@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns:yt="http://www.youtube.com/xml/schemas/2015" xmlns:media="http://search.yahoo.com/mrss/" xmlns="http://www.w3.org/2005/Atom">
+ <link rel="self" href="http://www.youtube.com/feeds/videos.xml?playlist_id=UUSHcj_RIb74fEMw3RbdQWCLIg"/>
+ <id>yt:playlist:UUSHcj_RIb74fEMw3RbdQWCLIg</id>
+ <yt:playlistId>UUSHcj_RIb74fEMw3RbdQWCLIg</yt:playlistId>
+ <yt:channelId>UCcj_RIb74fEMw3RbdQWCLIg</yt:channelId>
+ <title>Short videos</title>
+ <author>
+  <name>Pět Světel</name>
+  <uri>https://www.youtube.com/channel/UCcj_RIb74fEMw3RbdQWCLIg</uri>
+ </author>
+ <published>2026-09-26T07:37:03+00:00</published>
+ <entry>
+  <id>yt:video:W4g0j0E5lpg</id>
+  <yt:videoId>W4g0j0E5lpg</yt:videoId>
+  <yt:channelId>UCcj_RIb74fEMw3RbdQWCLIg</yt:channelId>
+  <title>Kdo podle mě vyhraje v Malaysii?</title>
+  <link rel="alternate" href="https://www.youtube.com/shorts/W4g0j0E5lpg"/>
+  <author>
+   <name>Pět Světel</name>
+   <uri>https://www.youtube.com/channel/UCcj_RIb74fEMw3RbdQWCLIg</uri>
+  </author>
+  <published>2026-10-03T18:25:54+00:00</published>
+  <updated>2026-10-07T07:54:51+00:00</updated>
+  <media:group>
+   <media:title>Kdo podle mě vyhraje v Malaysii?</media:title>
+   <media:content url="https://www.youtube.com/v/W4g0j0E5lpg?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+   <media:thumbnail url="https://i4.ytimg.com/vi/W4g0j0E5lpg/hqdefault.jpg" width="480" height="360"/>
+   <media:description>Dejte mi vaše tipy do komentářů! 🙌🏻</media:description>
+   <media:community>
+    <media:starRating count="3" average="5.00" min="1" max="5"/>
+    <media:statistics views="209"/>
+   </media:community>
+  </media:group>
+ </entry>
+ <entry>
+  <id>yt:video:jJcHlbArY_s</id>
+  <yt:videoId>jJcHlbArY_s</yt:videoId>
+  <yt:channelId>UCcj_RIb74fEMw3RbdQWCLIg</yt:channelId>
+  <title>Kdo vyhraje dnes v Baku?! - Predikce</title>
+  <link rel="alternate" href="https://www.youtube.com/shorts/jJcHlbArY_s"/>
+  <author>
+   <name>Pět Světel</name>
+   <uri>https://www.youtube.com/channel/UCcj_RIb74fEMw3RbdQWCLIg</uri>
+  </author>
+  <published>2026-09-26T09:46:01+00:00</published>
+  <updated>2026-10-01T20:40:06+00:00</updated>
+  <media:group>
+   <media:title>Kdo vyhraje dnes v Baku?! - Predikce</media:title>
+   <media:content url="https://www.youtube.com/v/jJcHlbArY_s?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+   <media:thumbnail url="https://i3.ytimg.com/vi/jJcHlbArY_s/hqdefault.jpg" width="480" height="360"/>
+   <media:description>Hoďte mi váš tip do komentářů! 👇🏻</media:description>
+   <media:community>
+    <media:starRating count="3" average="5.00" min="1" max="5"/>
+    <media:statistics views="287"/>
+   </media:community>
+  </media:group>
+ </entry>
+ <entry>
+  <id>yt:video:kr3OHRC30rA</id>
+  <yt:videoId>kr3OHRC30rA</yt:videoId>
+  <yt:channelId>UCcj_RIb74fEMw3RbdQWCLIg</yt:channelId>
+  <title>Sprint v Monaku?!</title>
+  <link rel="alternate" href="https://www.youtube.com/shorts/kr3OHRC30rA"/>
+  <author>
+   <name>Pět Světel</name>
+   <uri>https://www.youtube.com/channel/UCcj_RIb74fEMw3RbdQWCLIg</uri>
+  </author>
+  <published>2026-09-26T07:37:02+00:00</published>
+  <updated>2026-09-30T00:27:55+00:00</updated>
+  <media:group>
+   <media:title>Sprint v Monaku?!</media:title>
+   <media:content url="https://www.youtube.com/v/kr3OHRC30rA?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+   <media:thumbnail url="https://i4.ytimg.com/vi/kr3OHRC30rA/hqdefault.jpg" width="480" height="360"/>
+   <media:description></media:description>
+   <media:community>
+    <media:starRating count="5" average="5.00" min="1" max="5"/>
+    <media:statistics views="277"/>
+   </media:community>
+  </media:group>
+ </entry>
+</feed>
