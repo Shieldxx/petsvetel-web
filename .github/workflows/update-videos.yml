@@ -1,6 +1,8 @@
 name: Update videos
 
 on:
+  schedule:
+    - cron: '23 * * * *'
   workflow_dispatch:
     inputs:
       dry_run:
