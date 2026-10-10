@@ -42,8 +42,6 @@ html {
 body {
   margin: 0;
   background-color: var(--bg);
-  /* the slanted tiles of the channel banner */
-  background-image: repeating-linear-gradient(115deg, transparent 0 90px, rgb(255 255 255 / 0.035) 90px 180px);
   color: var(--text);
   font: 400 1.0625rem/1.55 var(--font-body);
   overflow-wrap: break-word;
