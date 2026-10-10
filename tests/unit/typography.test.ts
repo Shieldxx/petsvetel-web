@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest';
 import { nbsp } from '../../src/lib/typography.ts';
 
-const N = ' ';
+const N = '\u00A0';
 
 describe('nbsp', () => {
   test.each([

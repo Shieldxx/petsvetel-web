@@ -6,7 +6,7 @@ import { describe, expect, test } from 'vitest';
 import { feedUrls } from '../../scripts/videos/feed.ts';
 import type { FetchLike } from '../../scripts/videos/fetch.ts';
 import { thumbUrl } from '../../scripts/videos/thumbs.ts';
-import { runUpdate, type UpdateOptions } from '../../scripts/videos/update.ts';
+import { MAX_REMOVALS, runUpdate, type UpdateOptions } from '../../scripts/videos/update.ts';
 import { site } from '../../src/config.ts';
 import type { VideoData } from '../../src/lib/types.ts';
 import { atomFeed, type FixtureEntry } from './fixtures/feeds.ts';
@@ -154,5 +154,71 @@ describe('runUpdate', () => {
     expect(result).toMatchObject({ status: 'updated', removed: [LONG.id] });
     expect((await readData(root)).videos.map((v) => v.id)).toEqual([SHORT.id]);
     expect(await thumbsIn(root)).toEqual([`${SHORT.id}.jpg`]);
+  });
+
+  test('a new video whose thumbnail is still unavailable logs it and keeps thumb: null', async () => {
+    const root = await makeRoot();
+    const routes = await standardRoutes();
+    routes.set(thumbUrl(LONG.id, 'maxresdefault'), () => new Response('missing', { status: 404 }));
+    routes.set(thumbUrl(LONG.id, 'hq720'), () => new Response('missing', { status: 404 }));
+    routes.set(thumbUrl(LONG.id, 'hqdefault'), () => new Response('missing', { status: 404 }));
+    const logs: string[] = [];
+    const result = await runUpdate(options(root, fakeFetch(routes).impl, { log: (message) => logs.push(message) }));
+    expect(result.status).toBe('updated');
+    expect((await readData(root)).videos.find((v) => v.id === LONG.id)?.thumb).toBeNull();
+    expect(logs).toContain(`no thumbnail yet for ${LONG.id}`);
+  });
+
+  async function setupMassRemoval(): Promise<{ root: string; routes: Map<string, Route>; ghostIds: string[] }> {
+    const root = await makeRoot();
+    const ghostIds = ['ghostVideo01', 'ghostVideo02', 'ghostVideo03'];
+    const stored: VideoData = {
+      channelId: site.channelId,
+      videos: [
+        { id: LONG.id, type: 'long', title: LONG.title, published: LONG.published, thumb: `${LONG.id}.jpg`, thumbSource: 'maxresdefault' },
+        ...ghostIds.map((id, i) => ({
+          id,
+          type: 'long' as const,
+          title: `Ghost ${i}`,
+          published: '2026-01-01T00:00:00.000Z',
+          thumb: `${id}.jpg`,
+          thumbSource: 'maxresdefault' as const,
+        })),
+      ],
+    };
+    await writeFile(join(root, 'src', 'data', 'videos.json'), `${JSON.stringify(stored, null, 2)}\n`);
+    for (const id of [LONG.id, ...ghostIds]) {
+      await writeFile(join(root, 'src', 'assets', 'thumbs', `${id}.jpg`), await jpeg(1280, 720));
+    }
+    const routes = new Map<string, Route>([
+      [urls.channel, () => new Response(atomFeed({ kind: 'channel', entries: [LONG] }))],
+      [urls.long, () => new Response(atomFeed({ kind: 'long', entries: [LONG] }))],
+      [urls.short, () => new Response(atomFeed({ kind: 'short', entries: [] }))],
+    ]);
+    return { root, routes, ghostIds };
+  }
+
+  test('a feed truncation that would remove many videos at once is refused', async () => {
+    const { root, routes, ghostIds } = await setupMassRemoval();
+    const before = await readFile(join(root, 'src', 'data', 'videos.json'), 'utf8');
+    const result = await runUpdate(options(root, fakeFetch(routes).impl));
+    expect(result).toMatchObject({
+      status: 'skipped',
+      reason: expect.stringContaining(`would remove ${ghostIds.length} videos`),
+    });
+    expect(await readFile(join(root, 'src', 'data', 'videos.json'), 'utf8')).toBe(before);
+    expect((await thumbsIn(root)).sort()).toEqual([LONG.id, ...ghostIds].map((id) => `${id}.jpg`).sort());
+  });
+
+  test('allowMassRemoval lets a genuine mass removal through', async () => {
+    const { root, routes, ghostIds } = await setupMassRemoval();
+    const result = await runUpdate(options(root, fakeFetch(routes).impl, { allowMassRemoval: true }));
+    expect(result).toMatchObject({ status: 'updated', removed: expect.arrayContaining(ghostIds) });
+    if (result.status === 'updated') expect(result.removed).toHaveLength(ghostIds.length);
+    expect(await thumbsIn(root)).toEqual([`${LONG.id}.jpg`]);
+  });
+
+  test('MAX_REMOVALS is 2', () => {
+    expect(MAX_REMOVALS).toBe(2);
   });
 });

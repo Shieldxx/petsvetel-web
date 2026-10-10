@@ -31,3 +31,13 @@ test('network errors are retried too', async () => {
   };
   expect(await fetchText('https://example.test/feed', { delayMs: 0, fetchImpl })).toBe('ok');
 });
+
+test('each attempt is sent with an abort signal', async () => {
+  let signal: AbortSignal | null | undefined;
+  const fetchImpl: FetchLike = async (_url, init) => {
+    signal = init?.signal;
+    return new Response('ok');
+  };
+  await fetchText('https://example.test/feed', { delayMs: 0, fetchImpl });
+  expect(signal).toBeInstanceOf(AbortSignal);
+});

@@ -7,6 +7,9 @@ import { fetchText, type FetchLike } from './fetch.ts';
 import { mergeVideos, validateFeeds, type FeedSet } from './merge.ts';
 import { fetchBestThumb } from './thumbs.ts';
 
+/** Refuse a run that would remove more than this many stored videos at once. */
+export const MAX_REMOVALS = 2;
+
 export interface UpdateOptions {
   /** Repository root: data in src/data/videos.json, thumbnails in src/assets/thumbs */
   root: string;
@@ -19,6 +22,8 @@ export interface UpdateOptions {
   log: (message: string) => void;
   /** Base delay between feed retries; tests pass 0 */
   retryDelayMs?: number;
+  /** Let a genuine mass removal past MAX_REMOVALS through */
+  allowMassRemoval?: boolean;
 }
 
 export type UpdateResult =
@@ -57,6 +62,16 @@ export async function runUpdate(opts: UpdateOptions): Promise<UpdateResult> {
   if (problem) return { status: 'skipped', reason: problem };
 
   const videos = mergeVideos(stored.videos, feeds, opts.now);
+
+  const keptIds = new Set(videos.map((v) => v.id));
+  const removed = stored.videos.filter((v) => !keptIds.has(v.id));
+  if (removed.length > MAX_REMOVALS && !opts.allowMassRemoval) {
+    return {
+      status: 'skipped',
+      reason: `would remove ${removed.length} videos at once (limit ${MAX_REMOVALS}); rerun with --allow-mass-removal if this is intended`,
+    };
+  }
+
   const listed = new Set([feeds.channel, feeds.long, feeds.short].flatMap((f) => f.entries.map((e) => e.id)));
 
   const thumbWrites = new Map<string, Uint8Array>();
@@ -70,6 +85,7 @@ export async function runUpdate(opts: UpdateOptions): Promise<UpdateResult> {
       if (missing) {
         video.thumb = null;
         video.thumbSource = null;
+        opts.log(`no thumbnail yet for ${video.id}`);
       }
       continue;
     }
@@ -80,10 +96,8 @@ export async function runUpdate(opts: UpdateOptions): Promise<UpdateResult> {
   }
 
   const storedById = new Map(stored.videos.map((v) => [v.id, v]));
-  const keptIds = new Set(videos.map((v) => v.id));
   const added = videos.filter((v) => !storedById.has(v.id));
   const retitled = videos.filter((v) => storedById.has(v.id) && storedById.get(v.id)?.title !== v.title);
-  const removed = stored.videos.filter((v) => !keptIds.has(v.id));
   const thumbDeletes = removed.flatMap((v) => (v.thumb ? [v.thumb] : []));
   const next: VideoData = { channelId: site.channelId, videos };
 

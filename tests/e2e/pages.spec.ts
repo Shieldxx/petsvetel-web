@@ -6,6 +6,7 @@ test('privacy page names the controller and only the public contact', async ({ p
   await expect(page.getByRole('heading', { level: 1, name: 'Soukromí' })).toBeVisible();
   await expect(page.getByText('David Kohout')).toBeVisible();
   await expect(page.getByRole('link', { name: 'kontakt@petsvetel.cz' })).toHaveAttribute('href', 'mailto:kontakt@petsvetel.cz');
+  await expect(page.getByText('nejvýše za posledních šest měsíců')).toBeVisible();
   expect(await page.content()).not.toMatch(/@gmail\.com/);
 });
 

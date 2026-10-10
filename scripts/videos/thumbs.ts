@@ -12,6 +12,8 @@ export function thumbUrl(id: string, source: ThumbSource): string {
   return `https://i.ytimg.com/vi/${id}/${source}.jpg`;
 }
 
+const THUMB_TIMEOUT_MS = 20_000;
+
 /** YouTube answers a missing size with a grey 120×90 picture, sometimes even with status 200. */
 async function isPlaceholder(bytes: Uint8Array): Promise<boolean> {
   try {
@@ -29,7 +31,7 @@ export async function fetchBestThumb(
 ): Promise<{ source: ThumbSource; bytes: Uint8Array } | null> {
   for (const source of THUMB_CANDIDATES[type]) {
     try {
-      const res = await fetchImpl(thumbUrl(id, source));
+      const res = await fetchImpl(thumbUrl(id, source), { signal: AbortSignal.timeout(THUMB_TIMEOUT_MS) });
       if (!res.ok) continue;
       const bytes = new Uint8Array(await res.arrayBuffer());
       if (await isPlaceholder(bytes)) continue;
