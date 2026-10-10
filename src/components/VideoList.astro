@@ -1,0 +1,41 @@
+---
+import { site } from '../config.ts';
+import type { Video } from '../lib/types.ts';
+import { isArchive } from '../lib/videos.ts';
+import VideoCard from './VideoCard.astro';
+
+interface Props {
+  videos: Video[];
+  relaunchDate: string;
+}
+
+const { videos, relaunchDate } = Astro.props;
+---
+{
+  videos.length > 0 && (
+    <section class="section" id="videa" aria-labelledby="videa-title">
+      <div class="container">
+        <h2 id="videa-title" class="section__title">Další videa</h2>
+        <ul class="video-grid">
+          {videos.map((video) => (
+            <VideoCard video={video} archive={isArchive(video, relaunchDate)} />
+          ))}
+        </ul>
+        <p class="section__more">
+          <a href={`${site.channelUrl}/videos`}>Všechna videa na YouTube</a>
+        </p>
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+    gap: 28px 24px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+</style>

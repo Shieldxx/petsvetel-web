@@ -1,0 +1,22 @@
+---
+import { nbsp } from '../lib/typography.ts';
+
+const paragraphs = [
+  'Pět světel je český kanál o motorsportu. Sleduju hlavně Formuli 1, k tomu závody NLS a IMSA a simracing.',
+  'V sérii Měsíc v motorsportu shrnuju, co se za poslední týdny stalo a proč na tom záleží. Ve Vysvětleno rozebírám pravidla a situace, které v přenosu proletí za pár vteřin. Před závody přidávám krátký tip, kdo podle mě vyhraje.',
+  'Čísla ověřuju v datech a u názorů říkám, čí jsou. Kanál vznikl v roce 2022, od září 2026 jede znovu.',
+];
+---
+<section class="section" id="o-kanalu" aria-labelledby="o-kanalu-title">
+  <div class="container about">
+    <h2 id="o-kanalu-title" class="section__title">O kanálu</h2>
+    {paragraphs.map((text) => <p>{nbsp(text)}</p>)}
+  </div>
+</section>
+
+<style>
+  .about p {
+    max-width: 65ch;
+    margin: 0 0 1em;
+  }
+</style>

@@ -1,11 +1,33 @@
 ---
+import About from '../components/About.astro';
+import Footer from '../components/Footer.astro';
+import Hero from '../components/Hero.astro';
+import Nav from '../components/Nav.astro';
+import SeriesList from '../components/SeriesList.astro';
+import ShortList from '../components/ShortList.astro';
+import VideoList from '../components/VideoList.astro';
+import { series, site } from '../config.ts';
+import Base from '../layouts/Base.astro';
+import { videoData } from '../lib/data.ts';
+import { visibleSeries } from '../lib/series.ts';
+import type { NavLink } from '../lib/types.ts';
+import { selectHomepage } from '../lib/videos.ts';
+
+const { hero, more, shorts } = selectHomepage(videoData.videos, site.relaunchDate);
+const seriesItems = visibleSeries(series);
+const links: NavLink[] = [];
+if (more.length > 0) links.push({ href: '#videa', label: 'Videa' });
+if (seriesItems.length > 0) links.push({ href: '#serie', label: 'Série' });
+links.push({ href: '#o-kanalu', label: 'O kanálu' });
 ---
-<html lang="cs">
-  <head>
-    <meta charset="utf-8" />
-    <title>Pět světel</title>
-  </head>
-  <body>
-    <p>Pět světel: web se staví.</p>
-  </body>
-</html>
+<Base path="/">
+  <Nav links={links} />
+  <main id="obsah" tabindex="-1">
+    <Hero video={hero} />
+    <VideoList videos={more} relaunchDate={site.relaunchDate} />
+    <ShortList shorts={shorts} />
+    <SeriesList items={seriesItems} />
+    <About />
+  </main>
+  <Footer />
+</Base>

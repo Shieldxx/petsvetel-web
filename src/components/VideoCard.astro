@@ -1,0 +1,83 @@
+---
+import { Picture } from 'astro:assets';
+import { fitWidths, thumbFor } from '../lib/thumbs.ts';
+import type { Video } from '../lib/types.ts';
+import { nbsp } from '../lib/typography.ts';
+import { archiveLabel, formatDate } from '../lib/videos.ts';
+
+interface Props {
+  video: Video;
+  archive: boolean;
+}
+
+const { video, archive } = Astro.props;
+const thumb = thumbFor(video.thumb);
+---
+<li class="card">
+  <a class="card__link" href={`https://www.youtube.com/watch?v=${video.id}`}>
+    <span class="card__media">
+      {
+        thumb && (
+          <Picture
+            src={thumb}
+            formats={['avif', 'webp']}
+            alt=""
+            widths={fitWidths([320, 480, 640], thumb.width)}
+            sizes="(min-width: 1120px) 340px, (min-width: 640px) 45vw, calc(100vw - 32px)"
+          />
+        )
+      }
+    </span>
+    <span class="card__title">{nbsp(video.title)}</span>
+  </a>
+  <p class="card__meta">
+    <time datetime={video.published}>{formatDate(video.published)}</time>
+    {archive && <span class="badge">{archiveLabel(video.published)}</span>}
+  </p>
+</li>
+
+<style>
+  .card__link {
+    display: block;
+    text-decoration: none;
+  }
+  .card__media {
+    display: block;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--bg-raised);
+    border-radius: var(--radius);
+  }
+  .card__media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.2s ease;
+  }
+  .card__link:hover .card__media :global(img) {
+    transform: scale(1.03);
+  }
+  .card__title {
+    display: block;
+    margin-top: 10px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+  .card__link:hover .card__title {
+    text-decoration: underline;
+  }
+  .card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin: 6px 0 0;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .card__media :global(img) {
+      transition: none;
+    }
+  }
+</style>

@@ -1,0 +1,55 @@
+---
+import { socials } from '../config.ts';
+
+const year = new Date().getFullYear();
+---
+<footer class="footer">
+  <div class="container footer__inner">
+    <ul class="footer__links">
+      {
+        socials.map((s) => (
+          <li>
+            <a href={s.url} rel="me">
+              {s.name}
+            </a>
+          </li>
+        ))
+      }
+      <li><a href="/soukromi">Soukromí</a></li>
+    </ul>
+    <p class="footer__copy">© {year} Pět světel</p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    margin-top: clamp(32px, 6vw, 64px);
+    padding-block: 24px 32px;
+    border-top: 1px solid var(--line);
+  }
+  .footer__inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 32px;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .footer__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-weight: 600;
+  }
+  .footer__links a {
+    display: inline-block;
+    padding-block: 10px;
+  }
+  .footer__copy {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+  }
+</style>

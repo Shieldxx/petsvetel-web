@@ -1,0 +1,39 @@
+---
+import { site } from '../config.ts';
+import type { Video } from '../lib/types.ts';
+import ShortCard from './ShortCard.astro';
+
+interface Props {
+  shorts: Video[];
+}
+
+const { shorts } = Astro.props;
+---
+{
+  shorts.length > 0 && (
+    <section class="section" id="shorts" aria-labelledby="shorts-title">
+      <div class="container">
+        <h2 id="shorts-title" class="section__title">Shorts</h2>
+        <ul class="shorts-grid">
+          {shorts.map((video) => (
+            <ShortCard video={video} />
+          ))}
+        </ul>
+        <p class="section__more">
+          <a href={`${site.channelUrl}/shorts`}>Všechny Shorts na YouTube</a>
+        </p>
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .shorts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(45%, 150px), 1fr));
+    gap: 20px 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+</style>
