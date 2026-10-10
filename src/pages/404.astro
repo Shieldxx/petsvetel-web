@@ -1,0 +1,17 @@
+---
+import Footer from '../components/Footer.astro';
+import Nav from '../components/Nav.astro';
+import Base from '../layouts/Base.astro';
+import type { NavLink } from '../lib/types.ts';
+
+const links: NavLink[] = [{ href: '/', label: 'Úvod' }];
+---
+<Base path="/404" title="Stránka nenalezena" noindex>
+  <Nav links={links} />
+  <main id="obsah" class="container page" tabindex="-1">
+    <h1>Tahle stránka neexistuje</h1>
+    <p>Možná se změnila adresa, nebo je v&nbsp;odkazu překlep.</p>
+    <p><a class="button" href="/">Zpět na úvod</a></p>
+  </main>
+  <Footer />
+</Base>

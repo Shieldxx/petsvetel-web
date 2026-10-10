@@ -1,0 +1,69 @@
+---
+import Footer from '../components/Footer.astro';
+import Nav from '../components/Nav.astro';
+import { site } from '../config.ts';
+import Base from '../layouts/Base.astro';
+import type { NavLink } from '../lib/types.ts';
+
+const links: NavLink[] = [{ href: '/', label: 'Úvod' }];
+const updated = '10. října 2026';
+---
+<Base
+  path="/soukromi"
+  title="Soukromí"
+  description="Jaké údaje vznikají při návštěvě petsvetel.cz, kdo s nimi pracuje a jaká máte práva."
+>
+  <Nav links={links} />
+  <main id="obsah" class="container page" tabindex="-1">
+    <h1>Soukromí</h1>
+    <p>Tady najdete, jaké údaje vznikají při návštěvě petsvetel.cz, kdo s&nbsp;nimi pracuje a&nbsp;jaká máte práva.</p>
+
+    <h2>Kdo za webem stojí</h2>
+    <p>
+      Správcem osobních údajů je {site.controllerName}, autor kanálu Pět světel. Napsat mi můžete na
+      <a href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a>.
+    </p>
+
+    <h2>Provoz webu</h2>
+    <p>
+      Web běží na službě Cloudflare. Při každé návštěvě Cloudflare zpracuje technické údaje o&nbsp;požadavku, hlavně
+      IP adresu, údaje o&nbsp;prohlížeči a&nbsp;navštívenou adresu, aby stránku doručil a&nbsp;chránil ji před útoky.
+      Já sám záznamy o&nbsp;jednotlivých návštěvách neukládám. Právním základem je oprávněný zájem na bezpečném provozu
+      webu (čl.&nbsp;6 odst.&nbsp;1 písm.&nbsp;f GDPR).
+    </p>
+    <p>
+      Cloudflare tu vystupuje jako zpracovatel. Údaje může zpracovávat i&nbsp;v&nbsp;USA, a&nbsp;to na základě rámce
+      EU-USA pro ochranu osobních údajů (Data Privacy Framework).
+    </p>
+
+    <h2>Návštěvnost</h2>
+    <p>
+      Návštěvnost měřím přes Cloudflare Web Analytics. Nepoužívá cookies ani jiné ukládání v&nbsp;prohlížeči
+      a&nbsp;nesleduje vás napříč weby. Vidím jen souhrnná čísla, třeba počet návštěv, země a&nbsp;odkud lidé přišli.
+      Právním základem je oprávněný zájem vědět, jestli web někdo používá.
+    </p>
+
+    <h2>Videa z YouTube</h2>
+    <p>
+      Přehrávač v&nbsp;horní části stránky se načte až ve chvíli, kdy na něj kliknete. Do té doby web na servery Googlu
+      nic neposílá a&nbsp;miniatury videí jsou uložené přímo na petsvetel.cz. Po kliknutí se video načte
+      z&nbsp;youtube-nocookie.com a&nbsp;údaje o&nbsp;přehrávání pak zpracovává Google podle svých
+      <a href="https://policies.google.com/privacy?hl=cs">zásad ochrany soukromí</a>.
+    </p>
+    <p>Odkazy na videa, YouTube a&nbsp;Instagram vedou na weby těchto služeb, kde platí jejich pravidla.</p>
+
+    <h2>Cookies</h2>
+    <p>Web sám žádné cookies nenastavuje.</p>
+
+    <h2>Vaše práva</h2>
+    <p>
+      Máte právo na přístup ke svým údajům, na jejich opravu nebo výmaz, na omezení zpracování a&nbsp;právo vznést
+      námitku proti zpracování na základě oprávněného zájmu. Stačí napsat na {site.contactEmail}. Pokud si myslíte, že
+      s&nbsp;údaji nakládám špatně, můžete podat stížnost u&nbsp;Úřadu pro ochranu osobních údajů
+      (<a href="https://uoou.gov.cz">uoou.gov.cz</a>).
+    </p>
+
+    <p class="muted">Aktualizováno {updated}.</p>
+  </main>
+  <Footer />
+</Base>
