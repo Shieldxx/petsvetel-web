@@ -1,0 +1,38 @@
+{
+  "name": "petsvetel-web",
+  "type": "module",
+  "private": true,
+  "description": "Web kanálu Pět světel (petsvetel.cz)",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "check": "astro check",
+    "test": "vitest run",
+    "test:e2e": "playwright test --grep-invert @deployed",
+    "test:deployed": "playwright test --grep @deployed --project=desktop",
+    "serve": "wrangler dev --port 8787",
+    "videos": "node scripts/videos/cli.ts",
+    "videos:dry": "node scripts/videos/cli.ts --dry-run",
+    "icons": "node scripts/make-icons.ts"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "@fontsource/barlow": "^5.3.0",
+    "@fontsource/barlow-condensed": "^5.3.0",
+    "astro": "^7.3.8",
+    "sharp": "^0.35.5"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "^1.64.0",
+    "@types/node": "^26.6.5",
+    "fast-xml-parser": "^5.11.2",
+    "typescript": "^6.0.3",
+    "vitest": "^5.0.3",
+    "wrangler": "^4.149.0"
+  }
+}

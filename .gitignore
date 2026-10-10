@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.astro/
+.wrangler/
+test-results/
+playwright-report/
+lighthouse*.json
+*-preview.png
+.env*
+.dev.vars*
