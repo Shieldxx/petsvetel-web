@@ -31,13 +31,13 @@ function fakeFetch(routes: Map<string, Route>): { impl: FetchLike; calls: string
 
 async function standardRoutes(): Promise<Map<string, Route>> {
   const maxres = await jpeg(1280, 720);
-  const vertical = await jpeg(1080, 1920);
+  const shortMaxres = await jpeg(1280, 720);
   return new Map<string, Route>([
     [urls.channel, () => new Response(atomFeed({ kind: 'channel', entries: [SHORT, LONG] }))],
     [urls.long, () => new Response(atomFeed({ kind: 'long', entries: [LONG] }))],
     [urls.short, () => new Response(atomFeed({ kind: 'short', entries: [SHORT] }))],
     [thumbUrl(LONG.id, 'maxresdefault'), () => new Response(maxres)],
-    [thumbUrl(SHORT.id, 'oar2'), () => new Response(vertical)],
+    [thumbUrl(SHORT.id, 'maxresdefault'), () => new Response(shortMaxres)],
   ]);
 }
 
@@ -74,7 +74,7 @@ describe('runUpdate', () => {
     expect(result).toEqual({ status: 'updated', added: [SHORT.id, LONG.id], removed: [], thumbs: [`${SHORT.id}.jpg`, `${LONG.id}.jpg`] });
     const data = await readData(root);
     expect(data.videos.map((v) => [v.id, v.type, v.thumbSource])).toEqual([
-      [SHORT.id, 'short', 'oar2'],
+      [SHORT.id, 'short', 'maxresdefault'],
       [LONG.id, 'long', 'maxresdefault'],
     ]);
     expect((await thumbsIn(root)).sort()).toEqual([`${LONG.id}.jpg`, `${SHORT.id}.jpg`].sort());
